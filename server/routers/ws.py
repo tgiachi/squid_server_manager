@@ -2,6 +2,9 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import logging
 from .ws_connection_manager import WsConnectionManager
 from server.models.ws_models import WsConnectionList
+from commons.base_message import BaseMessage
+from commons.messages import NodeInfoRequest
+from python_event_bus import EventBus
 
 router = APIRouter(prefix="/ws")
 
@@ -9,6 +12,20 @@ connection_manager = WsConnectionManager()
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
+
+
+async def send_ws_message(message: BaseMessage, agent_id: str = None):
+    print(f"Sending message to agent: {agent_id}")
+    if agent_id:
+        await connection_manager.connections[agent_id].send_text(message.to_json())
+    else:
+        await connection_manager.broadcast(message.to_json())
+
+
+@router.post("/broadcast")
+async def broadcast_message(message: str, agent_id: str = None):
+    await send_ws_message(NodeInfoRequest(), agent_id)
+    return {"message": "Message sent to all agents"}
 
 
 @router.get("/connections", response_model=WsConnectionList)
