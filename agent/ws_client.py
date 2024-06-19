@@ -1,3 +1,4 @@
+"""Websocket client for connecting to the websocket server"""
 import asyncio
 import json
 import queue
@@ -21,7 +22,7 @@ class WebSocketClient:
         self.max_reconnect_attempts = 5
         self.reconnect_attempts = 0
         self.logger = logger_utils.init_logger(__name__)
-        self.websocket_url = agent_ctx.config_manager.config.websocket_url
+        self.websocket_url = agent_ctx.config_manager.config.websocket_url + f"/ws/agent/{agent_ctx.config_manager.config.node_id}"
         self.ws = None
         self.killed = False
         self.logger.info(f"Websocket URL: {self.websocket_url}")

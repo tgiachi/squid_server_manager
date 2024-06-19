@@ -1,6 +1,5 @@
+"""Event types used by the agent."""
 # Event types
-
-
 STARTING_EVENT = "ev_start"
 STOPPING_EVENT = "ev_stop"
 

@@ -1,4 +1,4 @@
 node_id: 03d74308-7b59-48f7-886b-d67452079e42
 steam_password: null
 steam_user_name: null
-websocket_url: wss://echo.websocket.org/
+websocket_url: ws://localhost:8000
