@@ -6,7 +6,6 @@ from .ws_connection_manager import WsConnectionManager
 from server.models.ws_models import WsConnectionList
 from commons.base_message import BaseMessage
 from commons.messages import NodeInfoRequest, PingRequest
-from python_event_bus import EventBus
 
 router = APIRouter(prefix="/ws")
 
