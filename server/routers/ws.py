@@ -1,6 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import logging
 from .ws_connection_manager import WsConnectionManager
+from server.models.ws_models import WsConnectionList
 
 router = APIRouter(prefix="/ws")
 
@@ -8,6 +9,11 @@ connection_manager = WsConnectionManager()
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
+
+
+@router.get("/connections", response_model=WsConnectionList)
+async def get_connections():
+    return WsConnectionList(connections=list(connection_manager.connections.keys()))
 
 
 @router.websocket("/agent/{agent_id}")
