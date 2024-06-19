@@ -4,6 +4,6 @@ WORKDIR /app/server
 EXPOSE 8000
 RUN apt-get update && apt-get install -y make
 COPY ../server /app/server
-COPY ../commons /app/server/commons
+COPY ../commons /app/commons
 RUN make init
 CMD ["fastapi", "run"]
