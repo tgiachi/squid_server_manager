@@ -1,9 +1,11 @@
+import asyncio
+
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import logging
 from .ws_connection_manager import WsConnectionManager
 from server.models.ws_models import WsConnectionList
 from commons.base_message import BaseMessage
-from commons.messages import NodeInfoRequest
+from commons.messages import NodeInfoRequest, PingRequest
 from python_event_bus import EventBus
 
 router = APIRouter(prefix="/ws")
@@ -14,8 +16,14 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 
+async def ping_agents():
+    while True:
+        await send_ws_message(PingRequest())
+        await asyncio.sleep(10)
+
+
 async def send_ws_message(message: BaseMessage, agent_id: str = None):
-    print(f"Sending message to agent: {agent_id}")
+    print(f"Sending message to agent: {agent_id} type: {message.message_type}")
     if agent_id:
         await connection_manager.connections[agent_id].send_text(message.to_json())
     else:

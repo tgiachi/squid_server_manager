@@ -16,3 +16,9 @@ class NodeInfoResponse(BaseMessage):
         super().__init__(commons.message_types.NODE_INFO_RESPONSE)
         self.node_id = None
         self.processor = None
+
+
+@dataclass
+class PingRequest(BaseMessage):
+    def __init__(self):
+        super().__init__(commons.message_types.PING_REQUEST)
